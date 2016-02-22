@@ -60,7 +60,6 @@
                                 </constraints>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="boolean" keyPath="swipingLastViewEnabled" value="YES"/>
-                                    <userDefinedRuntimeAttribute type="boolean" keyPath="disappearingImmediately" value="NO"/>
                                     <userDefinedRuntimeAttribute type="boolean" keyPath="viewsDisappearImmediately" value="YES"/>
                                 </userDefinedRuntimeAttributes>
                             </view>
