@@ -174,17 +174,17 @@ public class KKSwipeRevealGalleryView : UIView, UIDynamicAnimatorDelegate, UIGes
             numberOfItems = actualDataSource.numberOfItemsInSwipeRevealGalleryView(self)
             
             if numberOfItems > 0 {
-                setItemViewForCurrentTopView(actualDataSource.swipeRevealGalleryView(self, viewForItemAtIndex: currentIndex))
+                setItemViewForCurrentTopView(actualDataSource.swipeRevealGalleryView(self, viewForItemAtIndex: currentIndex), cacheOld: false)
             }
             
             if numberOfItems > 1 {
-                setItemViewForCurrentBottomView(actualDataSource.swipeRevealGalleryView(self, viewForItemAtIndex: currentIndex+1))
+                setItemViewForCurrentBottomView(actualDataSource.swipeRevealGalleryView(self, viewForItemAtIndex: currentIndex+1), cacheOld: false)
             }
             
         } else {
             numberOfItems = 0
-            clearCurrentTopView()
-            clearCurrentBottomView()
+            clearCurrentTopView(cache: false)
+            clearCurrentBottomView(cache: false)
         }
     }
 
@@ -262,11 +262,7 @@ public class KKSwipeRevealGalleryView : UIView, UIDynamicAnimatorDelegate, UIGes
 
     public func dequeueReusableViewForClass(reusableViewClass : AnyClass) -> UIView? {
         let identifier = NSStringFromClass(reusableViewClass)
-        let dequeuedView = cachedViews[identifier]?.last
-        if dequeuedView != nil {
-            cachedViews[identifier]?.removeLast()
-        }
-        return dequeuedView
+        return cachedViews[identifier]?.removeLast()
     }
  
     
@@ -400,32 +396,50 @@ public class KKSwipeRevealGalleryView : UIView, UIDynamicAnimatorDelegate, UIGes
     }
     
     private func setItemViewForCurrentTopView(itemView : UIView){
-        setItemView(itemView, forView: currentTopView)
+        setItemView(itemView, forView: currentTopView, cacheOld: true)
     }
 
     private func setItemViewForCurrentBottomView(itemView : UIView){
-        setItemView(itemView, forView: currentBottomView)
+        setItemView(itemView, forView: currentBottomView, cacheOld: true)
+    }
+
+    private func setItemViewForCurrentTopView(itemView : UIView, cacheOld: Bool){
+        setItemView(itemView, forView: currentTopView, cacheOld: cacheOld)
     }
     
-    private func setItemView(itemView : UIView, forView view : UIView){
-        clearView(view)
+    private func setItemViewForCurrentBottomView(itemView : UIView, cacheOld: Bool){
+        setItemView(itemView, forView: currentBottomView, cacheOld: cacheOld)
+    }
+    
+    private func setItemView(itemView : UIView, forView view : UIView, cacheOld: Bool){
+        clearView(view, cache: cacheOld)
         
         itemView.frame = view.bounds
         view.addSubview(itemView)
     }
     
     private func clearCurrentTopView(){
-        clearView(currentTopView)
+        clearView(currentTopView, cache: true)
     }
     
     private func clearCurrentBottomView(){
-        clearView(currentBottomView)
+        clearView(currentBottomView, cache: true)
+    }
+
+    private func clearCurrentTopView(cache cache: Bool){
+        clearView(currentTopView, cache: cache)
     }
     
-    private func clearView(view : UIView){
+    private func clearCurrentBottomView(cache cache: Bool){
+        clearView(currentBottomView, cache: cache)
+    }
+    
+    private func clearView(view : UIView, cache: Bool){
         
         if let itemView = view.subviews.first {
-            cacheItemView(itemView)
+            if cache {
+                cacheItemView(itemView)
+            }
             itemView.removeFromSuperview()
         }
         
@@ -437,7 +451,6 @@ public class KKSwipeRevealGalleryView : UIView, UIDynamicAnimatorDelegate, UIGes
 
         if let itemsForIdentifier = cachedViews[identifier] {
             if itemsForIdentifier.count < MaxCachedViewsForIdentifier {
-//                itemsForIdentifier.append(itemView)
                 cachedViews[identifier]?.append(itemView)
             }
         } else {
