@@ -435,9 +435,10 @@ public class KKSwipeRevealGalleryView : UIView, UIDynamicAnimatorDelegate, UIGes
     private func cacheItemView(itemView : UIView){
         let identifier = NSStringFromClass(itemView.dynamicType)
 
-        if var itemsForIdentifier = cachedViews[identifier] {
+        if let itemsForIdentifier = cachedViews[identifier] {
             if itemsForIdentifier.count < MaxCachedViewsForIdentifier {
-                itemsForIdentifier.append(itemView)
+//                itemsForIdentifier.append(itemView)
+                cachedViews[identifier]?.append(itemView)
             }
         } else {
             cachedViews[identifier] = [itemView]
