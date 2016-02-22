@@ -216,7 +216,7 @@ public class KKSwipeRevealGalleryView : UIView, UIDynamicAnimatorDelegate, UIGes
 // MARK: Changing items count
 ////////////////////////////////////////////////////////////////////
     
-    func increaseItemsCount(by: UInt){
+    public func increaseItemsCount(by: UInt){
         guard by > 0 else { return }
         
         let prevNumberOfItems = numberOfItems
@@ -237,7 +237,7 @@ public class KKSwipeRevealGalleryView : UIView, UIDynamicAnimatorDelegate, UIGes
         }
     }
     
-    func decreaseItemsCount(by: UInt){
+    public func decreaseItemsCount(by: UInt){
         guard by > 0 else { return }
 
         numberOfItems = by > numberOfItems ? 0 : numberOfItems - by
@@ -252,7 +252,7 @@ public class KKSwipeRevealGalleryView : UIView, UIDynamicAnimatorDelegate, UIGes
         
     }
     
-    func changeItemsCountTo(newItemsCount: UInt){
+    public func changeItemsCountTo(newItemsCount: UInt){
         if newItemsCount > numberOfItems {
             increaseItemsCount(newItemsCount - numberOfItems)
         } else if newItemsCount < numberOfItems {
@@ -260,7 +260,7 @@ public class KKSwipeRevealGalleryView : UIView, UIDynamicAnimatorDelegate, UIGes
         }
     }
 
-    func dequeueReusableViewForClass(reusableViewClass : AnyClass) -> UIView? {
+    public func dequeueReusableViewForClass(reusableViewClass : AnyClass) -> UIView? {
         let identifier = NSStringFromClass(reusableViewClass)
         let dequeuedView = cachedViews[identifier]?.last
         if dequeuedView != nil {
