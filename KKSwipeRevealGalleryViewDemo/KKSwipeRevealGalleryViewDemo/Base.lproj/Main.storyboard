@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9532" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="49e-Tb-3d3">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+    </dependencies>
+    <scenes>
+        <!--Demo 1-->
+        <scene sceneID="hNz-n2-bh7">
+            <objects>
+                <viewController id="9pv-A4-QxB" customClass="KKMiscGalleryDemoViewController" customModule="KKSwipeRevealGalleryViewDemo" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Ia1-K6-d13"/>
+                        <viewControllerLayoutGuide type="bottom" id="4ug-Mw-9AY"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="tsR-hK-woN">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="MjL-fP-CMu">
+                                <rect key="frame" x="28" y="28" width="51" height="31"/>
+                                <connections>
+                                    <action selector="lastViewSwipeableSwitchSwitched:" destination="9pv-A4-QxB" eventType="valueChanged" id="a4Y-YZ-Men"/>
+                                </connections>
+                            </switch>
+                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="yed-xc-z8K">
+                                <rect key="frame" x="28" y="67" width="51" height="31"/>
+                                <connections>
+                                    <action selector="disappearsImmediatelySwitchSwitched:" destination="9pv-A4-QxB" eventType="valueChanged" id="JnI-dP-AyW"/>
+                                </connections>
+                            </switch>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Last view swipeable" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uJP-zU-mQz">
+                                <rect key="frame" x="85" y="33" width="153" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="View disappears when out of bounds" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TmA-AO-aUS">
+                                <rect key="frame" x="85" y="72" width="283" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DxJ-Zl-Mj5">
+                                <rect key="frame" x="28" y="106" width="97" height="30"/>
+                                <state key="normal" title="Reload gallery">
+                                    <color key="titleColor" red="0.25136204769999998" green="0.5" blue="0.25017989309999999" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="reloadGalleryButtonTapped" destination="9pv-A4-QxB" eventType="touchUpInside" id="bzp-qk-TZR"/>
+                                </connections>
+                            </button>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="AI7-v2-bje" customClass="KKSwipeRevealGalleryView" customModule="KKSwipeRevealGalleryViewDemo" customModuleProvider="target">
+                                <rect key="frame" x="200" y="200" width="200" height="200"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="200" id="E9b-8W-cp2"/>
+                                    <constraint firstAttribute="height" constant="200" id="PXa-3w-KDJ"/>
+                                </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="swipingLastViewEnabled" value="YES"/>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="disappearingImmediately" value="NO"/>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="viewsDisappearImmediately" value="YES"/>
+                                </userDefinedRuntimeAttributes>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="uJP-zU-mQz" firstAttribute="centerY" secondItem="MjL-fP-CMu" secondAttribute="centerY" id="1Kb-Ns-gvT"/>
+                            <constraint firstItem="DxJ-Zl-Mj5" firstAttribute="top" secondItem="yed-xc-z8K" secondAttribute="bottom" constant="8" symbolic="YES" id="B7f-j7-9E0"/>
+                            <constraint firstItem="MjL-fP-CMu" firstAttribute="leading" secondItem="tsR-hK-woN" secondAttribute="leadingMargin" constant="8" id="Dgf-4X-uNa"/>
+                            <constraint firstItem="TmA-AO-aUS" firstAttribute="leading" secondItem="uJP-zU-mQz" secondAttribute="leading" id="Er3-Q9-RN3"/>
+                            <constraint firstItem="AI7-v2-bje" firstAttribute="centerX" secondItem="tsR-hK-woN" secondAttribute="centerX" id="IV3-WY-AcE"/>
+                            <constraint firstItem="uJP-zU-mQz" firstAttribute="leading" secondItem="MjL-fP-CMu" secondAttribute="trailing" constant="8" symbolic="YES" id="OcP-Jc-bAg"/>
+                            <constraint firstItem="TmA-AO-aUS" firstAttribute="centerY" secondItem="yed-xc-z8K" secondAttribute="centerY" id="TZX-AI-5w9"/>
+                            <constraint firstItem="yed-xc-z8K" firstAttribute="top" secondItem="MjL-fP-CMu" secondAttribute="bottom" constant="8" symbolic="YES" id="V7S-Cj-OmM"/>
+                            <constraint firstItem="yed-xc-z8K" firstAttribute="leading" secondItem="MjL-fP-CMu" secondAttribute="leading" id="WgO-Rk-fDS"/>
+                            <constraint firstItem="AI7-v2-bje" firstAttribute="centerY" secondItem="tsR-hK-woN" secondAttribute="centerY" id="bNa-nl-3lb"/>
+                            <constraint firstItem="DxJ-Zl-Mj5" firstAttribute="leading" secondItem="yed-xc-z8K" secondAttribute="leading" id="m8E-Ky-aDM"/>
+                            <constraint firstItem="MjL-fP-CMu" firstAttribute="top" secondItem="Ia1-K6-d13" secondAttribute="bottom" constant="8" symbolic="YES" id="wxL-PX-11k"/>
+                        </constraints>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="Demo 1" image="first" id="acW-dT-cKf"/>
+                    <connections>
+                        <outlet property="galleryView" destination="AI7-v2-bje" id="2Wc-dZ-luE"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="W5J-7L-Pyd" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="750" y="-320"/>
+        </scene>
+        <!--Demo 2-->
+        <scene sceneID="wg7-f3-ORb">
+            <objects>
+                <viewController id="8rJ-Kc-sve" customClass="KKFullScreenImageGalleryDemoViewController" customModule="KKSwipeRevealGalleryViewDemo" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="L7p-HK-0SC"/>
+                        <viewControllerLayoutGuide type="bottom" id="Djb-ko-YwX"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="QS5-Rx-YEW">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2J1-WF-oib" customClass="KKSwipeRevealGalleryView" customModule="KKSwipeRevealGalleryViewDemo" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="551"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="swipingLastViewEnabled" value="YES"/>
+                                </userDefinedRuntimeAttributes>
+                            </view>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="pF0-3v-qkE">
+                                <rect key="frame" x="20" y="28" width="100" height="29"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="100" id="icX-Ir-Npb"/>
+                                </constraints>
+                                <segments>
+                                    <segment title="Fill"/>
+                                    <segment title="Fit"/>
+                                </segments>
+                                <connections>
+                                    <action selector="imageModeControlSwitched:" destination="8rJ-Kc-sve" eventType="valueChanged" id="8vL-nP-tgs"/>
+                                </connections>
+                            </segmentedControl>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wwy-NU-Mes">
+                                <rect key="frame" x="20" y="64" width="97" height="30"/>
+                                <state key="normal" title="Reload gallery"/>
+                                <connections>
+                                    <action selector="reloadGalleryButtonTapped" destination="8rJ-Kc-sve" eventType="touchUpInside" id="RSy-1N-doE"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="2J1-WF-oib" firstAttribute="leading" secondItem="QS5-Rx-YEW" secondAttribute="leading" id="8qi-Pe-CWF"/>
+                            <constraint firstItem="wwy-NU-Mes" firstAttribute="leading" secondItem="pF0-3v-qkE" secondAttribute="leading" id="Ijx-mz-QSL"/>
+                            <constraint firstAttribute="trailing" secondItem="2J1-WF-oib" secondAttribute="trailing" id="KsL-fu-Bo9"/>
+                            <constraint firstItem="pF0-3v-qkE" firstAttribute="leading" secondItem="QS5-Rx-YEW" secondAttribute="leadingMargin" id="Ne0-r6-d8d"/>
+                            <constraint firstItem="pF0-3v-qkE" firstAttribute="top" secondItem="L7p-HK-0SC" secondAttribute="bottom" constant="8" symbolic="YES" id="OQf-h6-kHQ"/>
+                            <constraint firstItem="2J1-WF-oib" firstAttribute="top" secondItem="QS5-Rx-YEW" secondAttribute="top" id="Qyh-3I-If4"/>
+                            <constraint firstItem="wwy-NU-Mes" firstAttribute="top" secondItem="pF0-3v-qkE" secondAttribute="bottom" constant="8" symbolic="YES" id="jJw-WG-3zI"/>
+                            <constraint firstItem="2J1-WF-oib" firstAttribute="bottom" secondItem="Djb-ko-YwX" secondAttribute="top" id="k7F-AF-KJb"/>
+                        </constraints>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="Demo 2" image="second" id="cPa-gy-q4n"/>
+                    <connections>
+                        <outlet property="galleryView" destination="2J1-WF-oib" id="2cM-xp-oPr"/>
+                        <outlet property="imageModeSwitch" destination="pF0-3v-qkE" id="haR-cD-EXQ"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="4Nw-L8-lE0" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="750" y="360"/>
+        </scene>
+        <!--Tab Bar Controller-->
+        <scene sceneID="yl2-sM-qoP">
+            <objects>
+                <tabBarController id="49e-Tb-3d3" sceneMemberID="viewController">
+                    <nil key="simulatedBottomBarMetrics"/>
+                    <tabBar key="tabBar" contentMode="scaleToFill" id="W28-zg-YXA">
+                        <rect key="frame" x="0.0" y="975" width="768" height="49"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    </tabBar>
+                    <connections>
+                        <segue destination="9pv-A4-QxB" kind="relationship" relationship="viewControllers" id="u7Y-xg-7CH"/>
+                        <segue destination="8rJ-Kc-sve" kind="relationship" relationship="viewControllers" id="lzU-1b-eKA"/>
+                    </connections>
+                </tabBarController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="HuB-VB-40B" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="0.0" y="0.0"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="first" width="30" height="30"/>
+        <image name="second" width="30" height="30"/>
+    </resources>
+</document>
