@@ -230,7 +230,7 @@ public class KKSwipeRevealGalleryView : UIView, UIDynamicAnimatorDelegate, UIGes
                 } else {
                     clearCurrentBottomView()
                 }
-            } else if currentIndex == prevNumberOfItems - 1 {
+            } else if Int(currentIndex) == Int(prevNumberOfItems) - 1 {
                 setItemViewForCurrentBottomView(actualDataSource.swipeRevealGalleryView(self, viewForItemAtIndex: currentIndex+1))
             }
             
@@ -240,7 +240,7 @@ public class KKSwipeRevealGalleryView : UIView, UIDynamicAnimatorDelegate, UIGes
     func decreaseItemsCount(by: UInt){
         guard by > 0 else { return }
 
-        numberOfItems = max(numberOfItems - by, 0)
+        numberOfItems = by > numberOfItems ? 0 : numberOfItems - by
         
         if numberOfItems < currentIndex + 2 {
             clearCurrentBottomView()
@@ -334,7 +334,7 @@ public class KKSwipeRevealGalleryView : UIView, UIDynamicAnimatorDelegate, UIGes
                             innerSelf.currentTopView.userInteractionEnabled = true
                             innerSelf.currentIndex += 1
                             
-                            if innerSelf.currentIndex < innerSelf.numberOfItems - 1 && innerSelf.dataSource != nil {
+                            if Int(innerSelf.currentIndex) < Int(innerSelf.numberOfItems) - 1 && innerSelf.dataSource != nil {
                                 innerSelf.setItemViewForCurrentBottomView(innerSelf.dataSource!.swipeRevealGalleryView(innerSelf, viewForItemAtIndex: innerSelf.currentIndex+1))
                             } else {
                                 innerSelf.clearCurrentBottomView()
