@@ -377,7 +377,7 @@ public class KKSwipeRevealGalleryView : UIView, UIDynamicAnimatorDelegate, UIGes
 
     override public func gestureRecognizerShouldBegin(gestureRecognizer: UIGestureRecognizer) -> Bool {
         if gestureRecognizer == panGestureRecognizer {
-            if currentIndex > numberOfItems - 1 || !swipingLastViewEnabled && currentIndex > numberOfItems - 2 {
+            if Int(currentIndex) > Int(numberOfItems) - 1 || (!swipingLastViewEnabled && Int(currentIndex) > Int(numberOfItems) - 2) {
                 return false
             }
         }
