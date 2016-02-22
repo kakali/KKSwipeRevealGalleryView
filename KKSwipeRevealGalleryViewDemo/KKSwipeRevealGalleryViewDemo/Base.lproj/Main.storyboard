@@ -34,13 +34,13 @@
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Last view swipeable" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="uJP-zU-mQz">
                                 <rect key="frame" x="77" y="35" width="129" height="17"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="749" text="View disappears when out of bounds" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="TmA-AO-aUS">
                                 <rect key="frame" x="77" y="74" width="239" height="17"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" verticalCompressionResistancePriority="749" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DxJ-Zl-Mj5">
@@ -116,10 +116,10 @@
                             <mask key="constraints">
                                 <exclude reference="QBB-hm-wJH"/>
                                 <exclude reference="ady-Gb-I80"/>
+                                <exclude reference="Gtk-cb-Red"/>
+                                <exclude reference="IEI-v3-GtT"/>
                                 <exclude reference="Ja4-Dd-EYU"/>
                                 <exclude reference="hvP-88-byD"/>
-                                <exclude reference="IEI-v3-GtT"/>
-                                <exclude reference="Gtk-cb-Red"/>
                                 <exclude reference="rp4-jm-ARS"/>
                                 <exclude reference="w7o-Xa-utL"/>
                             </mask>
@@ -133,15 +133,15 @@
                                 <include reference="MgT-67-dmJ"/>
                                 <include reference="QBB-hm-wJH"/>
                                 <include reference="ady-Gb-I80"/>
+                                <exclude reference="Bkp-jD-Mct"/>
+                                <include reference="Gtk-cb-Red"/>
+                                <include reference="eH3-rd-cF1"/>
+                                <exclude reference="0XX-GM-Giy"/>
+                                <include reference="IEI-v3-GtT"/>
                                 <exclude reference="10E-HN-dQQ"/>
                                 <include reference="Ja4-Dd-EYU"/>
                                 <exclude reference="M49-Pm-G75"/>
                                 <include reference="hvP-88-byD"/>
-                                <exclude reference="0XX-GM-Giy"/>
-                                <include reference="IEI-v3-GtT"/>
-                                <exclude reference="Bkp-jD-Mct"/>
-                                <include reference="Gtk-cb-Red"/>
-                                <include reference="eH3-rd-cF1"/>
                                 <include reference="mrS-3w-DWe"/>
                                 <include reference="rp4-jm-ARS"/>
                                 <include reference="w7o-Xa-utL"/>
