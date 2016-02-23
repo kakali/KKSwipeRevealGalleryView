@@ -314,36 +314,33 @@ public class KKSwipeRevealGalleryView : UIView, UIDynamicAnimatorDelegate, UIGes
                 itemBehavior = UIDynamicItemBehavior(items: [currentTopView])
                 itemBehavior!.resistance = 1
                 itemBehavior!.angularResistance = 1
-                weak var weakSelf = self
-                itemBehavior!.action = {
-                    
-                    if let innerSelf = weakSelf {
-                        
-                        let galleryRootView = innerSelf.rootView()
-                        let topViewFrameOnScreen = innerSelf.convertRect(innerSelf.currentTopView.frame, toView: galleryRootView)
-                        
-                        if (innerSelf.viewsDisappearImmediately && !CGRectIntersectsRect(innerSelf.bounds, innerSelf.currentTopView.frame)) || (!CGRectIntersectsRect(galleryRootView.bounds, topViewFrameOnScreen)) {
-                            
-                            innerSelf.animator.removeAllBehaviors()
-                            innerSelf.isAnimating = false
-                            innerSelf.switchViews()
-                            innerSelf.currentTopView.userInteractionEnabled = true
-                            innerSelf.currentIndex += 1
-                            
-                            if Int(innerSelf.currentIndex) < Int(innerSelf.numberOfItems) - 1 && innerSelf.dataSource != nil {
-                                innerSelf.setItemViewForCurrentBottomView(innerSelf.dataSource!.swipeRevealGalleryView(innerSelf, viewForItemAtIndex: innerSelf.currentIndex+1))
-                            } else {
-                                innerSelf.clearCurrentBottomView()
-                            }
-                            
-                            if innerSelf.currentIndex < innerSelf.numberOfItems {
-                                innerSelf.delegate?.swipeRevealGallery?(innerSelf, didRevealItemAtIndex: innerSelf.currentIndex)
-                            } else {
-                                innerSelf.delegate?.swipeRevealGalleryViewDidSwipeAwayLastItem?(innerSelf)
-                            }
 
-                            innerSelf.delegate?.swipeRevealGallery?(innerSelf, didEndAnimatingItemAtIndex: innerSelf.currentIndex, away: true)
+                itemBehavior!.action = { [unowned self] in
+                        
+                    let galleryRootView = self.rootView()
+                    let topViewFrameOnScreen = self.convertRect(self.currentTopView.frame, toView: galleryRootView)
+                    
+                    if (self.viewsDisappearImmediately && !CGRectIntersectsRect(self.bounds, self.currentTopView.frame)) || (!CGRectIntersectsRect(galleryRootView.bounds, topViewFrameOnScreen)) {
+                        
+                        self.animator.removeAllBehaviors()
+                        self.isAnimating = false
+                        self.switchViews()
+                        self.currentTopView.userInteractionEnabled = true
+                        self.currentIndex += 1
+                        
+                        if Int(self.currentIndex) < Int(self.numberOfItems) - 1 && self.dataSource != nil {
+                            self.setItemViewForCurrentBottomView(self.dataSource!.swipeRevealGalleryView(self, viewForItemAtIndex: self.currentIndex+1))
+                        } else {
+                            self.clearCurrentBottomView()
                         }
+                        
+                        if self.currentIndex < self.numberOfItems {
+                            self.delegate?.swipeRevealGallery?(self, didRevealItemAtIndex: self.currentIndex)
+                        } else {
+                            self.delegate?.swipeRevealGalleryViewDidSwipeAwayLastItem?(self)
+                        }
+
+                        self.delegate?.swipeRevealGallery?(self, didEndAnimatingItemAtIndex: self.currentIndex, away: true)
                     }
                 }
                 
