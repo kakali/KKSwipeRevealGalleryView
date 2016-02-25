@@ -262,7 +262,12 @@ public class KKSwipeRevealGalleryView : UIView, UIDynamicAnimatorDelegate, UIGes
 
     public func dequeueReusableViewForClass(reusableViewClass : AnyClass) -> UIView? {
         let identifier = NSStringFromClass(reusableViewClass)
-        return cachedViews[identifier]?.removeLast()
+        
+        let dequeuedView = cachedViews[identifier]?.last
+        if dequeuedView != nil {
+            cachedViews[identifier]?.removeLast()
+        }
+        return dequeuedView
     }
  
     

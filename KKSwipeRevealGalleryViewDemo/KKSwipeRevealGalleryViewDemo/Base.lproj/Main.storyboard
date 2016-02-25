@@ -176,21 +176,8 @@
                                     <userDefinedRuntimeAttribute type="boolean" keyPath="swipingLastViewEnabled" value="YES"/>
                                 </userDefinedRuntimeAttributes>
                             </view>
-                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="pF0-3v-qkE">
-                                <rect key="frame" x="20" y="28" width="100" height="29"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="100" id="icX-Ir-Npb"/>
-                                </constraints>
-                                <segments>
-                                    <segment title="Fill"/>
-                                    <segment title="Fit"/>
-                                </segments>
-                                <connections>
-                                    <action selector="imageModeControlSwitched:" destination="8rJ-Kc-sve" eventType="valueChanged" id="8vL-nP-tgs"/>
-                                </connections>
-                            </segmentedControl>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wwy-NU-Mes">
-                                <rect key="frame" x="20" y="64" width="97" height="30"/>
+                                <rect key="frame" x="20" y="28" width="97" height="30"/>
                                 <state key="normal" title="Reload gallery"/>
                                 <connections>
                                     <action selector="reloadGalleryButtonTapped" destination="8rJ-Kc-sve" eventType="touchUpInside" id="RSy-1N-doE"/>
@@ -200,19 +187,16 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="2J1-WF-oib" firstAttribute="leading" secondItem="QS5-Rx-YEW" secondAttribute="leading" id="8qi-Pe-CWF"/>
-                            <constraint firstItem="wwy-NU-Mes" firstAttribute="leading" secondItem="pF0-3v-qkE" secondAttribute="leading" id="Ijx-mz-QSL"/>
                             <constraint firstAttribute="trailing" secondItem="2J1-WF-oib" secondAttribute="trailing" id="KsL-fu-Bo9"/>
-                            <constraint firstItem="pF0-3v-qkE" firstAttribute="leading" secondItem="QS5-Rx-YEW" secondAttribute="leadingMargin" id="Ne0-r6-d8d"/>
-                            <constraint firstItem="pF0-3v-qkE" firstAttribute="top" secondItem="L7p-HK-0SC" secondAttribute="bottom" constant="8" symbolic="YES" id="OQf-h6-kHQ"/>
                             <constraint firstItem="2J1-WF-oib" firstAttribute="top" secondItem="QS5-Rx-YEW" secondAttribute="top" id="Qyh-3I-If4"/>
-                            <constraint firstItem="wwy-NU-Mes" firstAttribute="top" secondItem="pF0-3v-qkE" secondAttribute="bottom" constant="8" symbolic="YES" id="jJw-WG-3zI"/>
+                            <constraint firstItem="wwy-NU-Mes" firstAttribute="top" secondItem="L7p-HK-0SC" secondAttribute="bottom" constant="8" symbolic="YES" id="XCX-BT-tdh"/>
                             <constraint firstItem="2J1-WF-oib" firstAttribute="bottom" secondItem="Djb-ko-YwX" secondAttribute="top" id="k7F-AF-KJb"/>
+                            <constraint firstAttribute="leadingMargin" secondItem="wwy-NU-Mes" secondAttribute="leading" id="re3-4b-zg0"/>
                         </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="Demo 2" image="second" id="cPa-gy-q4n"/>
                     <connections>
                         <outlet property="galleryView" destination="2J1-WF-oib" id="2cM-xp-oPr"/>
-                        <outlet property="imageModeSwitch" destination="pF0-3v-qkE" id="haR-cD-EXQ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4Nw-L8-lE0" sceneMemberID="firstResponder"/>
