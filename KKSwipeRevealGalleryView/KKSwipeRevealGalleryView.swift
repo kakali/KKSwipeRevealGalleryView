@@ -56,10 +56,10 @@ public class KKSwipeRevealGalleryView : UIView, UIDynamicAnimatorDelegate, UIGes
     public var viewsDisappearImmediately : Bool = true
     
     // Index for currently visible view. Indexing is refreshed with a call to reloadData.
-    private(set) public var currentIndex : UInt = 0
+    internal(set) public var currentIndex : UInt = 0
     
     // Number of items (since the last reload, not the current number of items left for swiping)
-    private(set) public var numberOfItems : UInt = 0
+    internal(set) public var numberOfItems : UInt = 0
 
     // Currently visible view.
     public var currentItemView : UIView? {
@@ -82,29 +82,33 @@ public class KKSwipeRevealGalleryView : UIView, UIDynamicAnimatorDelegate, UIGes
     public weak var delegate : KKSwipeRevealGalleryViewDelegate? = nil
     
     // Gallery's gesture recognizer.
-    private(set) public var panGestureRecognizer = UIPanGestureRecognizer()
+    internal(set) public var panGestureRecognizer = UIPanGestureRecognizer()
     
 ////////////////////////////////////////////////////////////////////
-// MARK: Private data
+// MARK: Internal data
 ////////////////////////////////////////////////////////////////////
     
-    private let internalView1 = UIView()
-    private let internalView2 = UIView()
+    let internalView1 = UIView()
+    let internalView2 = UIView()
     
-    private var currentTopView : UIView!
-    private var currentBottomView : UIView!
+    var currentTopView : UIView!
+    var currentBottomView : UIView!
     
-    private var cachedViews = [String : [UIView]]()
+    var currentInteractingView : UIView? {
+        get { return currentTopView }
+    }
     
-    private var isDragging = false
-    private var isAnimating = false
+    var cachedViews = [String : [UIView]]()
     
-    private var animator : UIDynamicAnimator!
-    private var attachmentBehavior : UIAttachmentBehavior? = nil
-    private var centerSnapBehavior : UISnapBehavior? = nil
-    private var itemBehavior : UIDynamicItemBehavior? = nil
+    var isDragging = false
+    var isAnimating = false
     
-    private let MaxCachedViewsForIdentifier = 2
+    var animator : UIDynamicAnimator!
+    var attachmentBehavior : UIAttachmentBehavior? = nil
+    var centerSnapBehavior : UISnapBehavior? = nil
+    var itemBehavior : UIDynamicItemBehavior? = nil
+    
+    let MaxCachedViewsForIdentifier = 2
     
 ////////////////////////////////////////////////////////////////////
 // MARK: Initializers
@@ -124,10 +128,13 @@ public class KKSwipeRevealGalleryView : UIView, UIDynamicAnimatorDelegate, UIGes
 // MARK: Setup & view updating
 ////////////////////////////////////////////////////////////////////
     
-    private func setup() {
-        animator = UIDynamicAnimator(referenceView: self)
-        animator.delegate = self
-
+    func setup() {
+        setupViews()
+        setupAnimator()
+        setupGestureRecognition()
+    }
+    
+    func setupViews(){
         internalView1.frame = self.bounds
         internalView2.frame = self.bounds
         
@@ -139,18 +146,27 @@ public class KKSwipeRevealGalleryView : UIView, UIDynamicAnimatorDelegate, UIGes
         
         currentTopView = internalView1
         currentBottomView = internalView2
-        
+    }
+    
+    func setupAnimator(){
+        animator = UIDynamicAnimator(referenceView: self)
+        animator.delegate = self
+    }
+    
+    func setupGestureRecognition(){
         panGestureRecognizer.delegate = self
         panGestureRecognizer.addTarget(self, action: "detectedPanGesture:")
-        
         addGestureRecognizer(panGestureRecognizer)
-        
         multipleTouchEnabled = false
     }
     
     override public func layoutSubviews() {
         
         super.layoutSubviews()
+        layoutSwitchableViews()
+    }
+    
+    func layoutSwitchableViews(){
         currentBottomView.frame = self.bounds
         currentBottomItemView?.frame = self.bounds
         
@@ -277,17 +293,20 @@ public class KKSwipeRevealGalleryView : UIView, UIDynamicAnimatorDelegate, UIGes
     
     func detectedPanGesture(gestureRecognizer : UIPanGestureRecognizer) {
         
-        let locationInView = gestureRecognizer.locationInView(currentTopView)
+        guard currentInteractingView != nil else { return }
+        
+        let swipeableView = currentInteractingView!
+        let locationInView = gestureRecognizer.locationInView(swipeableView)
      
         switch gestureRecognizer.state {
             
         case .Began:
             
-            if !isAnimating && CGRectContainsPoint(currentTopView.bounds, locationInView){
-                currentBottomView.userInteractionEnabled = false
+            if !isAnimating && CGRectContainsPoint(swipeableView.bounds, locationInView){
+                disableUserInteractionForUnderlyingViews()
                 animator.removeAllBehaviors()
                 itemBehavior = nil
-                attachmentBehavior = UIAttachmentBehavior(item: currentTopView, offsetFromCenter: UIOffsetMake(locationInView.x - currentTopView.bounds.size.width/2, locationInView.y - currentTopView.bounds.size.height/2), attachedToAnchor: gestureRecognizer.locationInView(self))
+                attachmentBehavior = UIAttachmentBehavior(item: swipeableView, offsetFromCenter: UIOffsetMake(locationInView.x - swipeableView.bounds.size.width/2, locationInView.y - swipeableView.bounds.size.height/2), attachedToAnchor: gestureRecognizer.locationInView(self))
                 animator.addBehavior(attachmentBehavior!)
                 isDragging = true
                 
@@ -309,35 +328,28 @@ public class KKSwipeRevealGalleryView : UIView, UIDynamicAnimatorDelegate, UIGes
             }
             isDragging = false
             isAnimating = true
-            currentTopView.userInteractionEnabled = false
+            swipeableView.userInteractionEnabled = false
             
             let velocity = gestureRecognizer.velocityInView(self)
             let minVelocityMagnitude : Float = 450
             let velocityMagnitude = sqrtf(Float(velocity.x*velocity.x + velocity.y*velocity.y))
             
             if velocityMagnitude >= minVelocityMagnitude {
-                itemBehavior = UIDynamicItemBehavior(items: [currentTopView])
+                itemBehavior = UIDynamicItemBehavior(items: [swipeableView])
                 itemBehavior!.resistance = 1
                 itemBehavior!.angularResistance = 1
 
                 itemBehavior!.action = { [unowned self] in
                         
                     let galleryRootView = self.rootView()
-                    let topViewFrameOnScreen = self.convertRect(self.currentTopView.frame, toView: galleryRootView)
+                    let topViewFrameOnScreen = self.convertRect(swipeableView.frame, toView: galleryRootView)
                     
-                    if (self.viewsDisappearImmediately && !CGRectIntersectsRect(self.bounds, self.currentTopView.frame)) || (!CGRectIntersectsRect(galleryRootView.bounds, topViewFrameOnScreen)) {
+                    if (self.viewsDisappearImmediately && !CGRectIntersectsRect(self.bounds, swipeableView.frame)) || (!CGRectIntersectsRect(galleryRootView.bounds, topViewFrameOnScreen)) {
                         
                         self.animator.removeAllBehaviors()
                         self.isAnimating = false
-                        self.switchViews()
-                        self.currentTopView.userInteractionEnabled = true
                         self.currentIndex += 1
-                        
-                        if Int(self.currentIndex) < Int(self.numberOfItems) - 1 && self.dataSource != nil {
-                            self.setItemViewForCurrentBottomView(self.dataSource!.swipeRevealGalleryView(self, viewForItemAtIndex: self.currentIndex+1))
-                        } else {
-                            self.clearCurrentBottomView()
-                        }
+                        self.switchViews()
                         
                         if self.currentIndex < self.numberOfItems {
                             self.delegate?.swipeRevealGallery?(self, didRevealItemAtIndex: self.currentIndex)
@@ -349,17 +361,17 @@ public class KKSwipeRevealGalleryView : UIView, UIDynamicAnimatorDelegate, UIGes
                     }
                 }
                 
-                itemBehavior!.addLinearVelocity(CGPointMake(velocity.x*2, velocity.y*2), forItem: currentTopView)
+                itemBehavior!.addLinearVelocity(CGPointMake(velocity.x*2, velocity.y*2), forItem: swipeableView)
                 animator.addBehavior(itemBehavior!)
                 
                 delegate?.swipeRevealGallery?(self, willAnimateItemAtIndex: currentIndex, away: true)
                 
             } else {
                 UIView.animateWithDuration(0.3, delay: 0, options: .CurveEaseInOut, animations: {
-                    self.currentTopView.center = CGPointMake(self.bounds.size.width/2, self.bounds.size.height/2)
-                    self.currentTopView.transform = CGAffineTransformIdentity
+                    swipeableView.center = CGPointMake(self.bounds.size.width/2, self.bounds.size.height/2)
+                    swipeableView.transform = CGAffineTransformIdentity
                     }, completion: {(finished : Bool) -> Void in
-                        self.currentTopView.userInteractionEnabled = true
+                        swipeableView.userInteractionEnabled = true
                         self.isAnimating = false
                         self.delegate?.swipeRevealGallery?(self, didEndAnimatingItemAtIndex: self.currentIndex, away: false)
                 })
@@ -386,7 +398,11 @@ public class KKSwipeRevealGalleryView : UIView, UIDynamicAnimatorDelegate, UIGes
 // MARK: Operations on views
 ////////////////////////////////////////////////////////////////////
     
-    private func switchViews(){
+    func disableUserInteractionForUnderlyingViews(){
+        currentBottomView.userInteractionEnabled = false
+    }
+    
+    func switchViews(){
         let tempView = currentBottomView
         currentBottomView = currentTopView
         currentTopView = tempView
@@ -395,48 +411,56 @@ public class KKSwipeRevealGalleryView : UIView, UIDynamicAnimatorDelegate, UIGes
 
         currentBottomView.transform = CGAffineTransformIdentity
         currentBottomView.center = CGPointMake(self.bounds.size.width/2, self.bounds.size.height/2)
+        
+        currentTopView.userInteractionEnabled = true
+        
+        if Int(self.currentIndex) < Int(self.numberOfItems) - 1 && self.dataSource != nil {
+            self.setItemViewForCurrentBottomView(self.dataSource!.swipeRevealGalleryView(self, viewForItemAtIndex: self.currentIndex+1))
+        } else {
+            self.clearCurrentBottomView()
+        }
     }
     
-    private func setItemViewForCurrentTopView(itemView : UIView){
+    func setItemViewForCurrentTopView(itemView : UIView){
         setItemView(itemView, forView: currentTopView, cacheOld: true)
     }
 
-    private func setItemViewForCurrentBottomView(itemView : UIView){
+    func setItemViewForCurrentBottomView(itemView : UIView){
         setItemView(itemView, forView: currentBottomView, cacheOld: true)
     }
 
-    private func setItemViewForCurrentTopView(itemView : UIView, cacheOld: Bool){
+    func setItemViewForCurrentTopView(itemView : UIView, cacheOld: Bool){
         setItemView(itemView, forView: currentTopView, cacheOld: cacheOld)
     }
     
-    private func setItemViewForCurrentBottomView(itemView : UIView, cacheOld: Bool){
+    func setItemViewForCurrentBottomView(itemView : UIView, cacheOld: Bool){
         setItemView(itemView, forView: currentBottomView, cacheOld: cacheOld)
     }
     
-    private func setItemView(itemView : UIView, forView view : UIView, cacheOld: Bool){
+    func setItemView(itemView : UIView, forView view : UIView, cacheOld: Bool){
         clearView(view, cache: cacheOld)
         
         itemView.frame = view.bounds
         view.addSubview(itemView)
     }
     
-    private func clearCurrentTopView(){
+    func clearCurrentTopView(){
         clearView(currentTopView, cache: true)
     }
     
-    private func clearCurrentBottomView(){
+    func clearCurrentBottomView(){
         clearView(currentBottomView, cache: true)
     }
 
-    private func clearCurrentTopView(cache cache: Bool){
+    func clearCurrentTopView(cache cache: Bool){
         clearView(currentTopView, cache: cache)
     }
     
-    private func clearCurrentBottomView(cache cache: Bool){
+    func clearCurrentBottomView(cache cache: Bool){
         clearView(currentBottomView, cache: cache)
     }
     
-    private func clearView(view : UIView, cache: Bool){
+    func clearView(view : UIView, cache: Bool){
         
         if let itemView = view.subviews.first {
             if cache {
@@ -448,7 +472,7 @@ public class KKSwipeRevealGalleryView : UIView, UIDynamicAnimatorDelegate, UIGes
         view.frame = self.bounds;
     }
     
-    private func cacheItemView(itemView : UIView){
+    func cacheItemView(itemView : UIView){
         let identifier = NSStringFromClass(itemView.dynamicType)
 
         if let itemsForIdentifier = cachedViews[identifier] {
