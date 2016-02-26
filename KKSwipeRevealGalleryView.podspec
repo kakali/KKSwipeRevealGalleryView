@@ -1,6 +1,6 @@
 Pod::Spec.new do |spec|
   spec.name = "KKSwipeRevealGalleryView"
-  spec.version = "0.0.1"
+  spec.version = "0.0.2"
   spec.summary = "An iOS gallery view with swipe-to-discard pages, written in Swift. Load your custom views and swipe them away with your finger! "
   spec.homepage = "https://github.com/kakali/KKSwipeRevealGalleryView"
   spec.license = { type: 'MIT', file: 'LICENSE.md' }
