@@ -1,6 +1,5 @@
 //
 //  KKSwipeRevealGalleryView.swift
-//  KKSwipeRevealGalleryViewDemo
 //
 //  Created by Katarzyna Kalinowska-Górska on 15.02.2016.
 //  Copyright © 2016 kkalinowskagorska. All rights reserved.
@@ -54,6 +53,17 @@ public class KKSwipeRevealGalleryView : UIView, UIDynamicAnimatorDelegate, UIGes
     // If enabled, the dismissed item view will disappear as soon as the item view get out of bounds. Otherwise, it will fly off screen fully visible. This matters when the gallery view is not full-screen.
     @IBInspectable
     public var viewsDisappearImmediately : Bool = true
+    
+    // If set to true, the view will use snap behavior to go back to the center.
+    @IBInspectable
+    public var snapAnimation : Bool = true
+    
+    // Snap animation damping property.
+    @IBInspectable
+    public var snapAnimationDamping : CGFloat = 0.5
+    
+    // IF no snap enabled, this is the duration of the simple returning animation.
+    private var simpleAnimationDuration = 0.3
     
     // Index for currently visible view. Indexing is refreshed with a call to reloadData.
     internal(set) public var currentIndex : UInt = 0
@@ -331,10 +341,15 @@ public class KKSwipeRevealGalleryView : UIView, UIDynamicAnimatorDelegate, UIGes
             swipeableView.userInteractionEnabled = false
             
             let velocity = gestureRecognizer.velocityInView(self)
-            let minVelocityMagnitude : Float = 450
+            let minVelocityMagnitude : Float = 700
             let velocityMagnitude = sqrtf(Float(velocity.x*velocity.x + velocity.y*velocity.y))
             
-            if velocityMagnitude >= minVelocityMagnitude {
+            let centerPoint = CGPointMake(self.bounds.midX, self.bounds.midY)
+
+            let swipingBack = (swipeableView.center.x > centerPoint.x && velocity.x < 0) || (swipeableView.center.x < centerPoint.x && velocity.x > 0)
+                || (swipeableView.center.y > centerPoint.y && velocity.y < 0) || (swipeableView.center.y < centerPoint.y && velocity.y > 0)
+            
+            if velocityMagnitude >= minVelocityMagnitude && !swipingBack {
                 itemBehavior = UIDynamicItemBehavior(items: [swipeableView])
                 itemBehavior!.resistance = 1
                 itemBehavior!.angularResistance = 1
@@ -367,14 +382,31 @@ public class KKSwipeRevealGalleryView : UIView, UIDynamicAnimatorDelegate, UIGes
                 delegate?.swipeRevealGallery?(self, willAnimateItemAtIndex: currentIndex, away: true)
                 
             } else {
-                UIView.animateWithDuration(0.3, delay: 0, options: .CurveEaseInOut, animations: {
-                    swipeableView.center = CGPointMake(self.bounds.size.width/2, self.bounds.size.height/2)
-                    swipeableView.transform = CGAffineTransformIdentity
-                    }, completion: {(finished : Bool) -> Void in
-                        swipeableView.userInteractionEnabled = true
-                        self.isAnimating = false
-                        self.delegate?.swipeRevealGallery?(self, didEndAnimatingItemAtIndex: self.currentIndex, away: false)
-                })
+                
+                if snapAnimation == true {
+                    let centerPoint = CGPointMake(self.bounds.midX, self.bounds.midY)
+                    let snapBehavior = UISnapBehavior(item: swipeableView, snapToPoint: centerPoint)
+                    snapBehavior.damping = min(max(snapAnimationDamping, 0), 1.0)
+                    snapBehavior.action = { [unowned self] in
+                        if swipeableView.center == centerPoint {
+                            self.animator.removeAllBehaviors()
+                            swipeableView.userInteractionEnabled = true
+                            self.isAnimating = false
+                            self.delegate?.swipeRevealGallery?(self, didEndAnimatingItemAtIndex: self.currentIndex, away: false)
+
+                        }
+                    }
+                    animator.addBehavior(snapBehavior)
+                } else {
+                    UIView.animateWithDuration(0.3, delay: 0, options: .CurveEaseInOut, animations: {
+                        swipeableView.center = CGPointMake(self.bounds.size.width/2, self.bounds.size.height/2)
+                        swipeableView.transform = CGAffineTransformIdentity
+                        }, completion: {(finished : Bool) -> Void in
+                            swipeableView.userInteractionEnabled = true
+                            self.isAnimating = false
+                            self.delegate?.swipeRevealGallery?(self, didEndAnimatingItemAtIndex: self.currentIndex, away: false)
+                    })
+                }
                 
                 delegate?.swipeRevealGallery?(self, willAnimateItemAtIndex: currentIndex, away: false)
             }
