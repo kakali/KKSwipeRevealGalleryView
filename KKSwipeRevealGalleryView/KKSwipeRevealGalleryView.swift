@@ -113,7 +113,12 @@ public class KKSwipeRevealGalleryView : UIView, UIDynamicAnimatorDelegate, UIGes
     var isDragging = false
     var isAnimating = false
     
-    var animator : UIDynamicAnimator!
+    lazy var animator : UIDynamicAnimator! = {
+        let lazyAnimator = UIDynamicAnimator(referenceView: self)
+        lazyAnimator.delegate = self
+        return lazyAnimator
+    }()
+    
     var attachmentBehavior : UIAttachmentBehavior? = nil
     var centerSnapBehavior : UISnapBehavior? = nil
     var itemBehavior : UIDynamicItemBehavior? = nil
@@ -140,7 +145,6 @@ public class KKSwipeRevealGalleryView : UIView, UIDynamicAnimatorDelegate, UIGes
     
     func setup() {
         setupViews()
-        setupAnimator()
         setupGestureRecognition()
     }
     
@@ -156,11 +160,6 @@ public class KKSwipeRevealGalleryView : UIView, UIDynamicAnimatorDelegate, UIGes
         
         currentTopView = internalView1
         currentBottomView = internalView2
-    }
-    
-    func setupAnimator(){
-        animator = UIDynamicAnimator(referenceView: self)
-        animator.delegate = self
     }
     
     func setupGestureRecognition(){
