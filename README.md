@@ -13,3 +13,5 @@ You can install KKSwipeRevealGalleryView using CocoaPods. Add the following line
 <code>pod 'KKSwipeRevealGalleryView'</code> 
 
 and perform <code>pod install</code>.
+
+The gallery is now being developed continuously, the version on CocoaPods might not always be the newest one!
