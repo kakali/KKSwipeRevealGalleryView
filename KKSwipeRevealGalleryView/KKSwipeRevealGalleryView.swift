@@ -371,7 +371,7 @@ public class KKSwipeRevealGalleryView : UIView, UIDynamicAnimatorDelegate, UIGes
                             self.delegate?.swipeRevealGalleryViewDidSwipeAwayLastItem?(self)
                         }
 
-                        self.delegate?.swipeRevealGallery?(self, didEndAnimatingItemAtIndex: self.currentIndex, away: true)
+                        self.delegate?.swipeRevealGallery?(self, didEndAnimatingItemAtIndex: self.currentIndex-1, away: true)
                     }
                 }
                 
