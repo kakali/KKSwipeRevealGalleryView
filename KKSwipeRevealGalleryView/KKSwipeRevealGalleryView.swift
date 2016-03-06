@@ -34,6 +34,8 @@ public protocol KKSwipeRevealGalleryViewDataSource : class {
     
     optional func swipeRevealGalleryViewDidSwipeAwayLastItem(galleryView: KKSwipeRevealGalleryView)
     
+    optional func swipeRevealGallery(galleryView: KKSwipeRevealGalleryView, shouldSwipeCurrentItemTouchedAtPoint point: CGPoint) -> Bool
+    
 }
 
 ////////////////////////////////////////////////////////////////////
@@ -420,6 +422,10 @@ public class KKSwipeRevealGalleryView : UIView, UIDynamicAnimatorDelegate, UIGes
         if gestureRecognizer == panGestureRecognizer {
             if currentIndex > numberOfItems - 1 || (!swipingLastViewEnabled && currentIndex > numberOfItems - 2) {
                 return false
+            }
+            let swipingAllowedByDelegate = self.delegate?.swipeRevealGallery?(self, shouldSwipeCurrentItemTouchedAtPoint: panGestureRecognizer.locationInView(currentInteractingView!))
+            if let swipingAllowed = swipingAllowedByDelegate {
+                return swipingAllowed
             }
         }
         return true

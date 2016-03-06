@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8421C26F1C8A2F3B0099BEFE /* KKStackSwipeRevealGalleryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8421C26E1C8A2F3B0099BEFE /* KKStackSwipeRevealGalleryView.swift */; };
+		8421C2711C8CD58E0099BEFE /* KKStackGalleryDemoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8421C2701C8CD58E0099BEFE /* KKStackGalleryDemoViewController.swift */; };
 		84D65A1B1C721367009E3744 /* KKAppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D65A1A1C721367009E3744 /* KKAppDelegate.swift */; };
 		84D65A221C721367009E3744 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 84D65A201C721367009E3744 /* Main.storyboard */; };
 		84D65A241C721367009E3744 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 84D65A231C721367009E3744 /* Assets.xcassets */; };
@@ -22,6 +24,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		8421C26E1C8A2F3B0099BEFE /* KKStackSwipeRevealGalleryView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KKStackSwipeRevealGalleryView.swift; sourceTree = "<group>"; };
+		8421C2701C8CD58E0099BEFE /* KKStackGalleryDemoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KKStackGalleryDemoViewController.swift; sourceTree = "<group>"; };
 		84D65A171C721367009E3744 /* KKSwipeRevealGalleryViewDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = KKSwipeRevealGalleryViewDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		84D65A1A1C721367009E3744 /* KKAppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KKAppDelegate.swift; sourceTree = "<group>"; };
 		84D65A211C721367009E3744 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -75,6 +79,7 @@
 				84D65A3E1C7A6586009E3744 /* KKGalleryItemView.xib */,
 				84D65A251C721367009E3744 /* LaunchScreen.storyboard */,
 				84D65A281C721367009E3744 /* Info.plist */,
+				8421C2701C8CD58E0099BEFE /* KKStackGalleryDemoViewController.swift */,
 				84D65A2E1C722DAB009E3744 /* KKFullScreenImageGalleryDemoViewController.swift */,
 				84D65A301C722DDB009E3744 /* KKMiscGalleryDemoViewController.swift */,
 				84D65A321C722DEE009E3744 /* KKGalleryDemoViewController.swift */,
@@ -87,6 +92,7 @@
 		84D65A341C723196009E3744 /* KKSwipeRevealGalleryView */ = {
 			isa = PBXGroup;
 			children = (
+				8421C26E1C8A2F3B0099BEFE /* KKStackSwipeRevealGalleryView.swift */,
 				84D65A351C7231D5009E3744 /* KKSwipeRevealGalleryView.swift */,
 				84D65A391C7A598E009E3744 /* UIView+RootView.swift */,
 			);
@@ -169,12 +175,14 @@
 			files = (
 				84D65A311C722DDB009E3744 /* KKMiscGalleryDemoViewController.swift in Sources */,
 				84D65A1B1C721367009E3744 /* KKAppDelegate.swift in Sources */,
+				8421C2711C8CD58E0099BEFE /* KKStackGalleryDemoViewController.swift in Sources */,
 				84D65A421C7A65D0009E3744 /* KKGalleryItemView.swift in Sources */,
 				84D65A361C7231D5009E3744 /* KKSwipeRevealGalleryView.swift in Sources */,
 				84D65A331C722DEE009E3744 /* KKGalleryDemoViewController.swift in Sources */,
 				84D65A3A1C7A598E009E3744 /* UIView+RootView.swift in Sources */,
 				84D65A381C790405009E3744 /* UIColor+RandomColor.swift in Sources */,
 				84D65A2F1C722DAB009E3744 /* KKFullScreenImageGalleryDemoViewController.swift in Sources */,
+				8421C26F1C8A2F3B0099BEFE /* KKStackSwipeRevealGalleryView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
