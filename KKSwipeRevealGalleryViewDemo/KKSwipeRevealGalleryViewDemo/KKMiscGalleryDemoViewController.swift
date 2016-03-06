@@ -25,7 +25,7 @@ class KKMiscGalleryDemoViewController: KKGalleryDemoViewController {
     
 // MARK: Gallery view
 
-    override func swipeRevealGalleryView(galleryView: KKSwipeRevealGalleryView, viewForItemAtIndex index: UInt) -> UIView {
+    override func swipeRevealGalleryView(galleryView: KKSwipeRevealGalleryView, viewForItemAtIndex index: Int) -> UIView {
         let randNumber = arc4random_uniform(3)
         var view : UIView? = nil
 

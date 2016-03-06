@@ -13,24 +13,24 @@ import UIKit
 
 public protocol KKSwipeRevealGalleryViewDataSource : class {
     
-    func numberOfItemsInSwipeRevealGalleryView(galleryView: KKSwipeRevealGalleryView) -> UInt
-    func swipeRevealGalleryView(galleryView: KKSwipeRevealGalleryView, viewForItemAtIndex index: UInt) -> UIView
+    func numberOfItemsInSwipeRevealGalleryView(galleryView: KKSwipeRevealGalleryView) -> Int
+    func swipeRevealGalleryView(galleryView: KKSwipeRevealGalleryView, viewForItemAtIndex index: Int) -> UIView
     
 }
 
 @objc public protocol KKSwipeRevealGalleryViewDelegate : class {
     
-    optional func swipeRevealGallery(galleryView: KKSwipeRevealGalleryView, didStartSwipingItemAtIndex index: UInt)
+    optional func swipeRevealGallery(galleryView: KKSwipeRevealGalleryView, didStartSwipingItemAtIndex index: Int)
     
-    optional func swipeRevealGallery(galleryView: KKSwipeRevealGalleryView, didSwipeItemAtIndex index: UInt)
+    optional func swipeRevealGallery(galleryView: KKSwipeRevealGalleryView, didSwipeItemAtIndex index: Int)
     
-    optional func swipeRevealGallery(galleryView: KKSwipeRevealGalleryView, didEndSwipingItemAtIndex index: UInt)
+    optional func swipeRevealGallery(galleryView: KKSwipeRevealGalleryView, didEndSwipingItemAtIndex index: Int)
     
-    optional func swipeRevealGallery(galleryView: KKSwipeRevealGalleryView, willAnimateItemAtIndex index: UInt, away: Bool)
+    optional func swipeRevealGallery(galleryView: KKSwipeRevealGalleryView, willAnimateItemAtIndex index: Int, away: Bool)
 
-    optional func swipeRevealGallery(galleryView: KKSwipeRevealGalleryView, didEndAnimatingItemAtIndex index: UInt, away: Bool)
+    optional func swipeRevealGallery(galleryView: KKSwipeRevealGalleryView, didEndAnimatingItemAtIndex index: Int, away: Bool)
     
-    optional func swipeRevealGallery(galleryView: KKSwipeRevealGalleryView, didRevealItemAtIndex index: UInt)
+    optional func swipeRevealGallery(galleryView: KKSwipeRevealGalleryView, didRevealItemAtIndex index: Int)
     
     optional func swipeRevealGalleryViewDidSwipeAwayLastItem(galleryView: KKSwipeRevealGalleryView)
     
@@ -66,10 +66,10 @@ public class KKSwipeRevealGalleryView : UIView, UIDynamicAnimatorDelegate, UIGes
     private var simpleAnimationDuration = 0.3
     
     // Index for currently visible view. Indexing is refreshed with a call to reloadData.
-    internal(set) public var currentIndex : UInt = 0
+    internal(set) public var currentIndex : Int = 0
     
     // Number of items (since the last reload, not the current number of items left for swiping)
-    internal(set) public var numberOfItems : UInt = 0
+    internal(set) public var numberOfItems : Int = 0
 
     // Currently visible view.
     public var currentItemView : UIView? {
@@ -177,11 +177,11 @@ public class KKSwipeRevealGalleryView : UIView, UIDynamicAnimatorDelegate, UIGes
     
     func layoutSwitchableViews(){
         currentBottomView.frame = self.bounds
-        currentBottomItemView?.frame = self.bounds
+        currentBottomItemView?.frame = currentBottomView.bounds
         
         if !isDragging && !isAnimating {
             currentTopView.frame = self.bounds
-            currentItemView?.frame = self.bounds
+            currentItemView?.frame = currentTopView.bounds
         }
     }
     
@@ -241,7 +241,7 @@ public class KKSwipeRevealGalleryView : UIView, UIDynamicAnimatorDelegate, UIGes
 // MARK: Changing items count
 ////////////////////////////////////////////////////////////////////
     
-    public func increaseItemsCount(by: UInt){
+    public func increaseItemsCount(by: Int){
         guard by > 0 else { return }
         
         let prevNumberOfItems = numberOfItems
@@ -255,14 +255,14 @@ public class KKSwipeRevealGalleryView : UIView, UIDynamicAnimatorDelegate, UIGes
                 } else {
                     clearCurrentBottomView()
                 }
-            } else if Int(currentIndex) == Int(prevNumberOfItems) - 1 {
+            } else if currentIndex == prevNumberOfItems - 1 {
                 setItemViewForCurrentBottomView(actualDataSource.swipeRevealGalleryView(self, viewForItemAtIndex: currentIndex+1))
             }
             
         }
     }
     
-    public func decreaseItemsCount(by: UInt){
+    public func decreaseItemsCount(by: Int){
         guard by > 0 else { return }
 
         numberOfItems = by > numberOfItems ? 0 : numberOfItems - by
@@ -277,7 +277,7 @@ public class KKSwipeRevealGalleryView : UIView, UIDynamicAnimatorDelegate, UIGes
         
     }
     
-    public func changeItemsCountTo(newItemsCount: UInt){
+    public func changeItemsCountTo(newItemsCount: Int){
         if newItemsCount > numberOfItems {
             increaseItemsCount(newItemsCount - numberOfItems)
         } else if newItemsCount < numberOfItems {
@@ -418,7 +418,7 @@ public class KKSwipeRevealGalleryView : UIView, UIDynamicAnimatorDelegate, UIGes
 
     override public func gestureRecognizerShouldBegin(gestureRecognizer: UIGestureRecognizer) -> Bool {
         if gestureRecognizer == panGestureRecognizer {
-            if Int(currentIndex) > Int(numberOfItems) - 1 || (!swipingLastViewEnabled && Int(currentIndex) > Int(numberOfItems) - 2) {
+            if currentIndex > numberOfItems - 1 || (!swipingLastViewEnabled && currentIndex > numberOfItems - 2) {
                 return false
             }
         }
@@ -445,7 +445,7 @@ public class KKSwipeRevealGalleryView : UIView, UIDynamicAnimatorDelegate, UIGes
         
         currentTopView.userInteractionEnabled = true
         
-        if Int(self.currentIndex) < Int(self.numberOfItems) - 1 && self.dataSource != nil {
+        if self.currentIndex < self.numberOfItems - 1 && self.dataSource != nil {
             self.setItemViewForCurrentBottomView(self.dataSource!.swipeRevealGalleryView(self, viewForItemAtIndex: self.currentIndex+1))
         } else {
             self.clearCurrentBottomView()

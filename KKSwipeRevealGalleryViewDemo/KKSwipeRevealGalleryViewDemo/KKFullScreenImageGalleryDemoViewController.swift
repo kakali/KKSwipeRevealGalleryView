@@ -9,8 +9,6 @@
 import UIKit
 
 class KKFullScreenImageGalleryDemoViewController: KKGalleryDemoViewController {
-    
-//    @IBOutlet weak var imageModeSwitch: UISegmentedControl!
 
     let image1 = UIImage(named: "photo1")
     let image2 = UIImage(named: "photo2")
@@ -24,17 +22,11 @@ class KKFullScreenImageGalleryDemoViewController: KKGalleryDemoViewController {
 
 // MARK: Gallery view
     
-    override func swipeRevealGalleryView(galleryView: KKSwipeRevealGalleryView, viewForItemAtIndex index: UInt) -> UIView {
+    override func swipeRevealGalleryView(galleryView: KKSwipeRevealGalleryView, viewForItemAtIndex index: Int) -> UIView {
         
         func configureImageViewMode(imageView : UIImageView){
-            // TODO: add an option for showing the whole stack of views (might be useful if each view is clear)
-//            if imageModeSwitch.selectedSegmentIndex == 1 {
-//                imageView.contentMode = .ScaleAspectFit
-//                imageView.backgroundColor = UIColor.clearColor()
-//            } else {
                 imageView.contentMode = .ScaleAspectFill
                 imageView.clipsToBounds = true
-//            }
         }
         
         var imageView = self.galleryView.dequeueReusableViewForClass(UIImageView) as? UIImageView

@@ -32,11 +32,11 @@ class KKGalleryDemoViewController: UIViewController {
 
 extension KKGalleryDemoViewController : KKSwipeRevealGalleryViewDataSource {
     
-    func numberOfItemsInSwipeRevealGalleryView(galleryView: KKSwipeRevealGalleryView) -> UInt {
+    func numberOfItemsInSwipeRevealGalleryView(galleryView: KKSwipeRevealGalleryView) -> Int {
         return 10
     }
     
-    func swipeRevealGalleryView(galleryView: KKSwipeRevealGalleryView, viewForItemAtIndex index: UInt) -> UIView {
+    func swipeRevealGalleryView(galleryView: KKSwipeRevealGalleryView, viewForItemAtIndex index: Int) -> UIView {
         let view = UIView()
         view.backgroundColor = UIColor.randomColor()
         return view
@@ -46,28 +46,28 @@ extension KKGalleryDemoViewController : KKSwipeRevealGalleryViewDataSource {
 
 extension KKGalleryDemoViewController : KKSwipeRevealGalleryViewDelegate {
     
-    func swipeRevealGallery(galleryView: KKSwipeRevealGalleryView, didStartSwipingItemAtIndex index: UInt){
-        NSLog("%@ index = %lu", __FUNCTION__, index)
+    func swipeRevealGallery(galleryView: KKSwipeRevealGalleryView, didStartSwipingItemAtIndex index: Int){
+        NSLog("%@ index = %d", __FUNCTION__, index)
     }
     
-    func swipeRevealGallery(galleryView: KKSwipeRevealGalleryView, didSwipeItemAtIndex index: UInt){
-        NSLog("%@ index = %lu", __FUNCTION__, index)
+    func swipeRevealGallery(galleryView: KKSwipeRevealGalleryView, didSwipeItemAtIndex index: Int){
+        NSLog("%@ index = %d", __FUNCTION__, index)
     }
     
-    func swipeRevealGallery(galleryView: KKSwipeRevealGalleryView, didEndSwipingItemAtIndex index: UInt){
-         NSLog("%@ index = %lu", __FUNCTION__, index)
+    func swipeRevealGallery(galleryView: KKSwipeRevealGalleryView, didEndSwipingItemAtIndex index: Int){
+         NSLog("%@ index = %d", __FUNCTION__, index)
     }
     
-    func swipeRevealGallery(galleryView: KKSwipeRevealGalleryView, willAnimateItemAtIndex index: UInt, away: Bool){
-         NSLog("%@ index = %lu, away = %@", __FUNCTION__, index, away.description)
+    func swipeRevealGallery(galleryView: KKSwipeRevealGalleryView, willAnimateItemAtIndex index: Int, away: Bool){
+         NSLog("%@ index = %d, away = %@", __FUNCTION__, index, away.description)
     }
     
-    func swipeRevealGallery(galleryView: KKSwipeRevealGalleryView, didEndAnimatingItemAtIndex index: UInt, away: Bool){
-         NSLog("%@ index = %lu, away = %@", __FUNCTION__, index, away.description)
+    func swipeRevealGallery(galleryView: KKSwipeRevealGalleryView, didEndAnimatingItemAtIndex index: Int, away: Bool){
+         NSLog("%@ index = %d, away = %@", __FUNCTION__, index, away.description)
     }
     
-    func swipeRevealGallery(galleryView: KKSwipeRevealGalleryView, didRevealItemAtIndex index: UInt){
-         NSLog("%@ index = %lu", __FUNCTION__, index)
+    func swipeRevealGallery(galleryView: KKSwipeRevealGalleryView, didRevealItemAtIndex index: Int){
+         NSLog("%@ index = %d", __FUNCTION__, index)
     }
     
     func swipeRevealGalleryViewDidSwipeAwayLastItem(galleryView: KKSwipeRevealGalleryView){
