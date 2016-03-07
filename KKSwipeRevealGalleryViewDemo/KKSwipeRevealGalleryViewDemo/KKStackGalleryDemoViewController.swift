@@ -51,7 +51,7 @@ class KKStackGalleryDemoViewController: KKGalleryDemoViewController {
     }
     
     func swipeRevealGallery(galleryView: KKSwipeRevealGalleryView, shouldSwipeCurrentItemTouchedAtPoint point: CGPoint) -> Bool {
-        let contentView = self.galleryView.currentItemView!.subviews[0]
+        let contentView = galleryView.currentItemView!.subviews[0]
         return CGRectContainsPoint(contentView.frame, point)
     }
 }

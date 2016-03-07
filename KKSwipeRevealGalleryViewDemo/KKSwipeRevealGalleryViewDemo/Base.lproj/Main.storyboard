@@ -233,7 +233,8 @@
                                 </constraints>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="boolean" keyPath="swipingLastViewEnabled" value="YES"/>
-                                    <userDefinedRuntimeAttribute type="boolean" keyPath="viewsDisappearImmediately" value="YES"/>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="viewsDisappearImmediately" value="NO"/>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="snapAnimation" value="YES"/>
                                 </userDefinedRuntimeAttributes>
                             </view>
                         </subviews>

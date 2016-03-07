@@ -36,6 +36,8 @@ public protocol KKSwipeRevealGalleryViewDataSource : class {
     
     optional func swipeRevealGallery(galleryView: KKSwipeRevealGalleryView, shouldSwipeCurrentItemTouchedAtPoint point: CGPoint) -> Bool
     
+    optional func minimalVelocityToSwipeAwayCurrentItemInSwipeRevealGallery(galleryView: KKSwipeRevealGalleryView) -> CGFloat
+    
 }
 
 ////////////////////////////////////////////////////////////////////
@@ -125,7 +127,15 @@ public class KKSwipeRevealGalleryView : UIView, UIDynamicAnimatorDelegate, UIGes
     var centerSnapBehavior : UISnapBehavior? = nil
     var itemBehavior : UIDynamicItemBehavior? = nil
     
-    let MaxCachedViewsForIdentifier = 2
+////////////////////////////////////////////////////////////////////
+// MARK: Defaults, constants
+////////////////////////////////////////////////////////////////////
+    
+    struct InternalDefaults {
+        static let MinVelocityMagnitude : CGFloat = 700.0
+        static let MaxCachedViewsForIdentifier = 2
+        static let AnimationDuration = 0.3
+    }
     
 ////////////////////////////////////////////////////////////////////
 // MARK: Initializers
@@ -342,15 +352,19 @@ public class KKSwipeRevealGalleryView : UIView, UIDynamicAnimatorDelegate, UIGes
             swipeableView.userInteractionEnabled = false
             
             let velocity = gestureRecognizer.velocityInView(self)
-            let minVelocityMagnitude : Float = 700
-            let velocityMagnitude = sqrtf(Float(velocity.x*velocity.x + velocity.y*velocity.y))
+            var minVelocityMagnitude = delegate?.minimalVelocityToSwipeAwayCurrentItemInSwipeRevealGallery?(self)
+            if minVelocityMagnitude == nil {
+               minVelocityMagnitude = InternalDefaults.MinVelocityMagnitude
+            }
+            
+            let velocityMagnitude = CGFloat(sqrtf(Float(velocity.x*velocity.x + velocity.y*velocity.y)))
             
             let centerPoint = CGPointMake(self.bounds.midX, self.bounds.midY)
 
             let swipingBack = (swipeableView.center.x > centerPoint.x && velocity.x < 0) || (swipeableView.center.x < centerPoint.x && velocity.x > 0)
                 || (swipeableView.center.y > centerPoint.y && velocity.y < 0) || (swipeableView.center.y < centerPoint.y && velocity.y > 0)
             
-            if velocityMagnitude >= minVelocityMagnitude && !swipingBack {
+            if velocityMagnitude >= minVelocityMagnitude! && !swipingBack {
                 itemBehavior = UIDynamicItemBehavior(items: [swipeableView])
                 itemBehavior!.resistance = 1
                 itemBehavior!.angularResistance = 1
@@ -399,7 +413,7 @@ public class KKSwipeRevealGalleryView : UIView, UIDynamicAnimatorDelegate, UIGes
                     }
                     animator.addBehavior(snapBehavior)
                 } else {
-                    UIView.animateWithDuration(0.3, delay: 0, options: .CurveEaseInOut, animations: {
+                    UIView.animateWithDuration(InternalDefaults.AnimationDuration, delay: 0, options: .CurveEaseInOut, animations: {
                         swipeableView.center = CGPointMake(self.bounds.size.width/2, self.bounds.size.height/2)
                         swipeableView.transform = CGAffineTransformIdentity
                         }, completion: {(finished : Bool) -> Void in
@@ -513,7 +527,7 @@ public class KKSwipeRevealGalleryView : UIView, UIDynamicAnimatorDelegate, UIGes
         let identifier = NSStringFromClass(itemView.dynamicType)
 
         if let itemsForIdentifier = cachedViews[identifier] {
-            if itemsForIdentifier.count < MaxCachedViewsForIdentifier {
+            if itemsForIdentifier.count < InternalDefaults.MaxCachedViewsForIdentifier {
                 cachedViews[identifier]?.append(itemView)
             }
         } else {

@@ -25,6 +25,7 @@ class KKGalleryDemoViewController: UIViewController {
     
     @IBAction func reloadGalleryButtonTapped() {
         self.galleryView.reloadData()
+//        self.galleryView.increaseItemsCount(2)
     }
     
 }
