@@ -115,7 +115,13 @@ public class KKSwipeRevealGalleryView : UIView, UIDynamicAnimatorDelegate, UIGes
     var cachedViews = [String : [UIView]]()
     
     var isDragging = false
-    var isAnimating = false
+    var isAnimatingAway = false
+    var isAnimatingToCenter = false
+    var isAnimating : Bool {
+        get {
+            return isAnimatingAway || isAnimatingToCenter
+        }
+    }
     
     lazy var animator : UIDynamicAnimator! = {
         let lazyAnimator = UIDynamicAnimator(referenceView: self)
@@ -134,7 +140,8 @@ public class KKSwipeRevealGalleryView : UIView, UIDynamicAnimatorDelegate, UIGes
     struct InternalDefaults {
         static let MinVelocityMagnitude : CGFloat = 700.0
         static let MaxCachedViewsForIdentifier = 2
-        static let AnimationDuration = 0.3
+        static let CenterAnimationDuration = 0.3
+        static let FadeOutAnimationDuration = 0.1
     }
     
 ////////////////////////////////////////////////////////////////////
@@ -348,7 +355,6 @@ public class KKSwipeRevealGalleryView : UIView, UIDynamicAnimatorDelegate, UIGes
                 attachmentBehavior = nil
             }
             isDragging = false
-            isAnimating = true
             swipeableView.userInteractionEnabled = false
             
             let velocity = gestureRecognizer.velocityInView(self)
@@ -365,6 +371,8 @@ public class KKSwipeRevealGalleryView : UIView, UIDynamicAnimatorDelegate, UIGes
                 || (swipeableView.center.y > centerPoint.y && velocity.y < 0) || (swipeableView.center.y < centerPoint.y && velocity.y > 0)
             
             if velocityMagnitude >= minVelocityMagnitude! && !swipingBack {
+                
+                isAnimatingAway = true
                 itemBehavior = UIDynamicItemBehavior(items: [swipeableView])
                 itemBehavior!.resistance = 1
                 itemBehavior!.angularResistance = 1
@@ -375,19 +383,7 @@ public class KKSwipeRevealGalleryView : UIView, UIDynamicAnimatorDelegate, UIGes
                     let topViewFrameOnScreen = self.convertRect(swipeableView.frame, toView: galleryRootView)
                     
                     if (self.viewsDisappearImmediately && !CGRectIntersectsRect(self.bounds, swipeableView.frame)) || (!CGRectIntersectsRect(galleryRootView.bounds, topViewFrameOnScreen)) {
-                        
-                        self.animator.removeAllBehaviors()
-                        self.isAnimating = false
-                        self.currentIndex += 1
-                        self.switchViews()
-                        
-                        if self.currentIndex < self.numberOfItems {
-                            self.delegate?.swipeRevealGallery?(self, didRevealItemAtIndex: self.currentIndex)
-                        } else {
-                            self.delegate?.swipeRevealGalleryViewDidSwipeAwayLastItem?(self)
-                        }
-
-                        self.delegate?.swipeRevealGallery?(self, didEndAnimatingItemAtIndex: self.currentIndex-1, away: true)
+                        self.onFinishedAnimatingAway()
                     }
                 }
                 
@@ -398,6 +394,8 @@ public class KKSwipeRevealGalleryView : UIView, UIDynamicAnimatorDelegate, UIGes
                 
             } else {
                 
+                isAnimatingToCenter = true
+                
                 if snapAnimation == true {
                     let centerPoint = CGPointMake(self.bounds.midX, self.bounds.midY)
                     let snapBehavior = UISnapBehavior(item: swipeableView, snapToPoint: centerPoint)
@@ -406,19 +404,19 @@ public class KKSwipeRevealGalleryView : UIView, UIDynamicAnimatorDelegate, UIGes
                         if swipeableView.center == centerPoint {
                             self.animator.removeAllBehaviors()
                             swipeableView.userInteractionEnabled = true
-                            self.isAnimating = false
+                            self.isAnimatingToCenter = false
                             self.delegate?.swipeRevealGallery?(self, didEndAnimatingItemAtIndex: self.currentIndex, away: false)
 
                         }
                     }
                     animator.addBehavior(snapBehavior)
                 } else {
-                    UIView.animateWithDuration(InternalDefaults.AnimationDuration, delay: 0, options: .CurveEaseInOut, animations: {
+                    UIView.animateWithDuration(InternalDefaults.CenterAnimationDuration, delay: 0, options: .CurveEaseInOut, animations: {
                         swipeableView.center = CGPointMake(self.bounds.size.width/2, self.bounds.size.height/2)
                         swipeableView.transform = CGAffineTransformIdentity
                         }, completion: {(finished : Bool) -> Void in
                             swipeableView.userInteractionEnabled = true
-                            self.isAnimating = false
+                            self.isAnimatingToCenter = false
                             self.delegate?.swipeRevealGallery?(self, didEndAnimatingItemAtIndex: self.currentIndex, away: false)
                     })
                 }
@@ -443,6 +441,50 @@ public class KKSwipeRevealGalleryView : UIView, UIDynamicAnimatorDelegate, UIGes
             }
         }
         return true
+    }
+
+    func onFinishedAnimatingAway(){
+        
+        func cleanUpBehaviors() {
+            self.animator.removeAllBehaviors()
+            self.itemBehavior = nil
+        }
+        
+        func performLogic(){
+            self.isAnimatingAway = false
+            self.currentIndex += 1
+            self.switchViews()
+        }
+        
+        func callDelegateMethods(){
+            if self.currentIndex < self.numberOfItems {
+                self.delegate?.swipeRevealGallery?(self, didRevealItemAtIndex: self.currentIndex)
+            } else {
+                self.delegate?.swipeRevealGalleryViewDidSwipeAwayLastItem?(self)
+            }
+            
+            self.delegate?.swipeRevealGallery?(self, didEndAnimatingItemAtIndex: self.currentIndex-1, away: true)
+        }
+        
+        cleanUpBehaviors()
+        performLogic()
+        callDelegateMethods()
+    }
+    
+
+    
+////////////////////////////////////////////////////////////////////
+// MARK: Dynamic animator delegate
+////////////////////////////////////////////////////////////////////
+    
+    public func dynamicAnimatorDidPause(animator: UIDynamicAnimator) {
+        if isAnimatingAway == true { //if the animation hasn't been finished correcly using item behavior action closure, clean up here
+            UIView.animateWithDuration(InternalDefaults.FadeOutAnimationDuration, animations: {
+                self.currentInteractingView?.alpha = 0
+                }, completion: {(finished) in
+                    self.onFinishedAnimatingAway()
+            })
+        }
     }
     
 ////////////////////////////////////////////////////////////////////

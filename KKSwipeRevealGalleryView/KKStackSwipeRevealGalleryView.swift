@@ -100,7 +100,6 @@ public class KKStackSwipeRevealGalleryView: KKSwipeRevealGalleryView {
             let newSubview = actualDataSource.swipeRevealGalleryView(self, viewForItemAtIndex: currentIndex)
             subviewContainer.addSubview(newSubview)
             newSubview.frame = subviewContainer.bounds
-//            currentTopView.insertSubview(actualDataSource.swipeRevealGalleryView(self, viewForItemAtIndex: currentIndex), atIndex: subviewIndex)
         }
         
     }
