@@ -3,9 +3,12 @@ An iOS Swift gallery view where pages are swiped away with the finger. A single 
 
 For views with transparent background, use KKStackSwipeRevealGalleryView. Keep in mind, though, that all the views must be loaded and displayed on the screen at the same time in this mode, so don't get too carried away with adding them!
 
-# Demo screenshots
+# Demo screenshots, KKSwipeRevealGalleryView
 ![screen1](https://cloud.githubusercontent.com/assets/1204385/13333081/75ac5330-dc05-11e5-9a47-7777a7507500.png)
 ![screen2](https://cloud.githubusercontent.com/assets/1204385/13333080/75a99500-dc05-11e5-89f7-35df491e3d0b.png)
+
+#Demo screenshots, KKStackSwipeRevealGalleryView
+![screen3](https://cloud.githubusercontent.com/assets/1204385/13570072/5547cff6-e46c-11e5-8bb3-a9eae51416f0.png)
 
 # Installation
 You can install KKSwipeRevealGalleryView using CocoaPods. Add the following line to your Podfile:
