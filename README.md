@@ -8,7 +8,7 @@ For views with transparent background, use KKStackSwipeRevealGalleryView. Keep i
 ![screen2](https://cloud.githubusercontent.com/assets/1204385/13333080/75a99500-dc05-11e5-89f7-35df491e3d0b.png)
 
 #Demo screenshots, KKStackSwipeRevealGalleryView
-![screen3](https://cloud.githubusercontent.com/assets/1204385/13570072/5547cff6-e46c-11e5-8bb3-a9eae51416f0.png)
+![screen5](https://cloud.githubusercontent.com/assets/1204385/13570197/19132430-e46d-11e5-8f75-129450f6934f.png)
 
 # Installation
 You can install KKSwipeRevealGalleryView using CocoaPods. Add the following line to your Podfile:
@@ -17,4 +17,4 @@ You can install KKSwipeRevealGalleryView using CocoaPods. Add the following line
 
 and perform <code>pod install</code>.
 
-The gallery is now being developed continuously, the version on CocoaPods might not always be the newest one.
+Since the gallery is now being developed continuously, the version on CocoaPods might not always be the newest one.
