@@ -28,30 +28,30 @@ class KKStackGalleryDemoViewController: KKGalleryDemoViewController {
         
         for _ in 0 ..< viewsCount {
             let newView = UIView()
-            newView.backgroundColor = UIColor.clearColor()
+            newView.backgroundColor = UIColor.clear
             let newViewContent = UIView()
             newView.addSubview(newViewContent)
             newViewContent.backgroundColor = UIColor.randomColor()
-            newViewContent.frame = CGRectMake(0, 0, tempWidth, tempWidth)
+            newViewContent.frame = CGRect(x: 0, y: 0, width: tempWidth, height: tempWidth)
             tempWidth -= step
             views.append(newView)
         }
         
-        return views.reverse()
+        return views.reversed()
     }
 
     // MARK: Gallery view
 
-    override func numberOfItemsInSwipeRevealGalleryView(galleryView: KKSwipeRevealGalleryView) -> Int {
+    override func numberOfItemsInSwipeRevealGalleryView(_ galleryView: KKSwipeRevealGalleryView) -> Int {
         return stackedViews.count
     }
     
-    override func swipeRevealGalleryView(galleryView: KKSwipeRevealGalleryView, viewForItemAtIndex index: Int) -> UIView {
+    override func swipeRevealGalleryView(_ galleryView: KKSwipeRevealGalleryView, viewForItemAtIndex index: Int) -> UIView {
         return stackedViews[index]
     }
     
-    func swipeRevealGallery(galleryView: KKSwipeRevealGalleryView, shouldSwipeCurrentItemTouchedAtPoint point: CGPoint) -> Bool {
+    func swipeRevealGallery(_ galleryView: KKSwipeRevealGalleryView, shouldSwipeCurrentItemTouchedAtPoint point: CGPoint) -> Bool {
         let contentView = galleryView.currentItemView!.subviews[0]
-        return CGRectContainsPoint(contentView.frame, point)
+        return contentView.frame.contains(point)
     }
 }
