@@ -183,7 +183,7 @@ public class KKSwipeRevealGalleryView : UIView, UIDynamicAnimatorDelegate, UIGes
     
     func setupGestureRecognition(){
         panGestureRecognizer.delegate = self
-        panGestureRecognizer.addTarget(self, action: "detectedPanGesture:")
+        panGestureRecognizer.addTarget(self, action: #selector(KKSwipeRevealGalleryView.detectedPanGesture(_:)))
         addGestureRecognizer(panGestureRecognizer)
         multipleTouchEnabled = false
     }

@@ -53,7 +53,7 @@ class KKMiscGalleryDemoViewController: KKGalleryDemoViewController {
         case 2:
             var galleryItemView = self.galleryView.dequeueReusableViewForClass(KKSwipeRevealGalleryViewDemo.KKGalleryItemView) as? KKGalleryItemView
             if galleryItemView == nil {
-                galleryItemView = (NSBundle.mainBundle().loadNibNamed("KKGalleryItemView", owner:nil , options: nil).first as! KKGalleryItemView)
+                galleryItemView = (NSBundle.mainBundle().loadNibNamed("KKGalleryItemView", owner:nil , options: nil)!.first as! KKGalleryItemView)
             }
             
             galleryItemView!.backgroundColor = UIColor.randomColor()

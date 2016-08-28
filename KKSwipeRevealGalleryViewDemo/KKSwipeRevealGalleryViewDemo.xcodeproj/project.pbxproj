@@ -133,6 +133,7 @@
 					84D65A161C721367009E3744 = {
 						CreatedOnToolsVersion = 7.2.1;
 						DevelopmentTeam = R948LH5K2S;
+						LastSwiftMigration = 0800;
 					};
 				};
 			};
@@ -308,6 +309,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.kkalinowskagorska.KKSwipeRevealGalleryViewDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "";
+				SWIFT_VERSION = 2.3;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -323,6 +325,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.kkalinowskagorska.KKSwipeRevealGalleryViewDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "";
+				SWIFT_VERSION = 2.3;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
