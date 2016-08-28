@@ -68,7 +68,7 @@ public class KKStackSwipeRevealGalleryView: KKSwipeRevealGalleryView {
             
             numberOfItems = actualDataSource.numberOfItemsInSwipeRevealGalleryView(self)
             guard numberOfItems > 0 else {return}
-            for i in (numberOfItems-1).stride(through: 0, by: -1){
+            for i in stride(from: (numberOfItems-1), through: 0, by: -1){
                 let subviewContainer = UIView()
                 let newSubview = actualDataSource.swipeRevealGalleryView(self, viewForItemAtIndex: i)
                 subviewContainer.addSubview(newSubview)
@@ -86,7 +86,7 @@ public class KKStackSwipeRevealGalleryView: KKSwipeRevealGalleryView {
         reloadItemAtIndex(currentIndex)
     }
     
-    public func reloadItemAtIndex(index : Int){
+    public func reloadItemAtIndex(_ index : Int){
         
         guard index < numberOfItems && index >= currentIndex else {
             return
@@ -114,11 +114,11 @@ public class KKStackSwipeRevealGalleryView: KKSwipeRevealGalleryView {
     ////////////////////////////////////////////////////////////////////
     
     //more intuitive name
-    public func addItems(nItems : Int){
+    public func addItems(_ nItems : Int){
         increaseItemsCount(nItems)
     }
     
-    override public func increaseItemsCount(by: Int){
+    override public func increaseItemsCount(_ by: Int){
         guard by > 0 else { return }
         
         let prevNumberOfItems = numberOfItems
@@ -146,7 +146,7 @@ public class KKStackSwipeRevealGalleryView: KKSwipeRevealGalleryView {
         }
     }
 
-    override public func decreaseItemsCount(by: Int){
+    override public func decreaseItemsCount(_ by: Int){
         guard by > 0 && by <= numberOfItems else { return }
         
         numberOfItems -= by
@@ -162,7 +162,7 @@ public class KKStackSwipeRevealGalleryView: KKSwipeRevealGalleryView {
     ////////////////////////////////////////////////////////////////////
     
     // Doesn't make sense in stack mode
-    override public func dequeueReusableViewForClass(reusableViewClass: AnyClass) -> UIView? {
+    override public func dequeueReusableViewForClass(_ reusableViewClass: AnyClass) -> UIView? {
         return nil
     }
     
@@ -172,13 +172,13 @@ public class KKStackSwipeRevealGalleryView: KKSwipeRevealGalleryView {
     
     override func disableUserInteractionForUnderlyingViews(){
         for i in 1 ..< currentTopView.subviews.count {
-            currentTopView.subviews[i].userInteractionEnabled = false
+            currentTopView.subviews[i].isUserInteractionEnabled = false
         }
     }
     
     override func switchViews(){
         currentInteractingView?.removeFromSuperview()
-        currentInteractingView?.userInteractionEnabled = true
+        currentInteractingView?.isUserInteractionEnabled = true
     }
   
     func clearAll(){

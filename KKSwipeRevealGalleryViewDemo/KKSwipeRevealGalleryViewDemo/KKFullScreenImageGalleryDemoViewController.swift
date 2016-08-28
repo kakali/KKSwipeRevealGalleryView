@@ -15,21 +15,21 @@ class KKFullScreenImageGalleryDemoViewController: KKGalleryDemoViewController {
 
 // MARK: IBActions
     
-    @IBAction func imageModeControlSwitched(sender: UISegmentedControl) {
+    @IBAction func imageModeControlSwitched(_ sender: UISegmentedControl) {
         self.galleryView.reloadCurrentItem()
         self.galleryView.reloadCurrentBottomItem()
     }
 
 // MARK: Gallery view
     
-    override func swipeRevealGalleryView(galleryView: KKSwipeRevealGalleryView, viewForItemAtIndex index: Int) -> UIView {
+    override func swipeRevealGalleryView(_ galleryView: KKSwipeRevealGalleryView, viewForItemAtIndex index: Int) -> UIView {
         
-        func configureImageViewMode(imageView : UIImageView){
-                imageView.contentMode = .ScaleAspectFill
+        func configureImageViewMode(_ imageView : UIImageView){
+                imageView.contentMode = .scaleAspectFill
                 imageView.clipsToBounds = true
         }
         
-        var imageView = self.galleryView.dequeueReusableViewForClass(UIImageView) as? UIImageView
+        var imageView = self.galleryView.dequeueReusableViewForClass(UIImageView.self) as? UIImageView
         if (imageView == nil){
             imageView = UIImageView()
         }
